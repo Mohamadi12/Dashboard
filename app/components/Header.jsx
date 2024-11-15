@@ -1,11 +1,13 @@
 "use client";
 
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Button, Navbar, TextInput } from "flowbite-react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon, FaSun } from "react-icons/fa";
+import { dark, light } from "@clerk/themes";
 
 const Header = () => {
   const path = usePathname();
@@ -41,11 +43,20 @@ const Header = () => {
         >
           {theme === "light" ? <FaSun /> : <FaMoon />}
         </Button>
-        <Link href="/sign-in">
-          <Button gradientDuoTone="purpleToBlue" outline>
-            Sign In
-          </Button>
-        </Link>
+        <SignedIn>
+          <UserButton
+            appearance={{
+              baseTheme: theme === "light" ? light : dark,
+            }}
+          />
+        </SignedIn>
+        <SignedOut>
+          <Link href="/sign-in">
+            <Button gradientDuoTone="purpleToBlue" outline>
+              Sign In
+            </Button>
+          </Link>
+        </SignedOut>
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
